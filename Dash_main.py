@@ -236,6 +236,8 @@ delta = cr - base_cr
 repeat = filtered_df[filtered_df["NoOfContacts"] > 1].shape[0] / total_n * 100
 avg_bal = filtered_df["Balance"].mean()
 avg_bal = avg_bal if pd.notna(avg_bal) else 0
+avg_call_dur = filtered_df["CallDuration"].mean()
+avg_call_dur = avg_call_dur if pd.notna(avg_call_dur) else 0
 _ch_rates = filtered_df.groupby("Communication", observed=True)["CarInsurance"].mean().dropna()
 best_ch = _ch_rates.idxmax() if not _ch_rates.empty else "N/A"
 
@@ -252,6 +254,7 @@ with tc:  # tc is the wide left column
   <span class="kpi-item"><span class="kpi-label">Rate</span><span class="kpi-value">{cr:.1f}% <span class="{delta_cls}">{delta_sym}{abs(delta):.1f}%</span></span></span>
   <span class="kpi-item"><span class="kpi-label">Repeat</span><span class="kpi-value">{repeat:.1f}%</span></span>
   <span class="kpi-item"><span class="kpi-label">Avg Bal</span><span class="kpi-value">${avg_bal:,.0f}</span></span>
+  <span class="kpi-item"><span class="kpi-label">Call Dur (s)</span><span class="kpi-value">{avg_call_dur:.0f}s</span></span>
   <span class="kpi-item"><span class="kpi-label">Best Channel</span><span class="kpi-value">{best_ch.title()}</span></span>
 </div>
 """, unsafe_allow_html=True)
